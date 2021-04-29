@@ -7,6 +7,7 @@ let generate_meme = document.getElementById('generate-meme');
 let generate_bt = document.getElementsByTagName("button")[0];
 let reset_bt = document.getElementsByTagName("button")[1];
 let read_bt = document.getElementsByTagName("button")[2];
+let text_language;
 let text_volumn = 1;
 let voices = [];
 
@@ -31,6 +32,20 @@ speechSynthesis.addEventListener("voiceschanged", () => {
     option.setAttribute('data-name', voices[i].name);
     voices_Selections.appendChild(option);
   }
+  voices_Selections.disabled = false;
+  text_language = voices[0];//default langugage for the text;
+
+  //select the language for the text
+  voices_Selections.addEventListener("change", ()=>{
+        let choice = voices_Selections.selectedOptions[0].getAttribute('data-name');
+        for(i = 0; i < voices.length ; i++) {
+          if(voices[i].name === choice) {
+            console.log(choice);
+            text_language = voices[i];
+          }
+        }
+  });
+
 })
 
 
@@ -163,6 +178,8 @@ read_bt.addEventListener('click', ()=>{
     let bottom_text = document.getElementById("text-bottom");
     let utterance = new SpeechSynthesisUtterance(top_text.value+" , "+bottom_text.value);
     utterance.volume = text_volumn;
+    utterance.voice = text_language;
+    console.log(text_language);
     speechSynthesis.speak(utterance);
 });
 
