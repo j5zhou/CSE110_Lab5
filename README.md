@@ -6,7 +6,7 @@
 
 ## Part 1:
 
-LINK TO YOUR PUBLISHED SITE
+[Lab 5 - Meme Generator](https://j5zhou.github.io/CSE110_Lab5/)
 
 ## Part 2:
 
