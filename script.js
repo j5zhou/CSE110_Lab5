@@ -3,6 +3,7 @@
 const img = new Image(); // used to load image from <input> and draw to canvas
 
 //getting the buttons
+let generate_meme = document.getElementById('generate-meme');
 let generate_bt = document.getElementsByTagName("button")[0];
 let reset_bt = document.getElementsByTagName("button")[1];
 let read_bt = document.getElementsByTagName("button")[2];
@@ -37,6 +38,7 @@ speechSynthesis.addEventListener("voiceschanged", () => {
 img.addEventListener('load', () => {
   // TODO
   //clear the canvas
+
   ctx.clearRect(0,0,400,400);
 
   //clear the form
@@ -66,12 +68,52 @@ img.addEventListener('load', () => {
 //image-input
 let image_input = document.getElementById("image-input");
 image_input.addEventListener('change',()=>{
+  console.log('b');
     //img.src=image_input.value;
-    let filepath = image_input.value;
+    let filepath = URL.createObjectURL(image_input.files[0]);
+  //  console.log(image_input.files[0]);
     let splits = filepath.split("\\");
-    img.src = "images/sky.jpg";
+    img.src = filepath;
     img.alt= splits[splits.length-1];
 });
+
+
+ generate_meme.addEventListener('submit',(e)=>
+ {
+
+  //ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    e.preventDefault();
+   let top_text = document.getElementById('text-top');
+   let bottom_text = document.getElementById("text-bottom");
+      ctx.font = "18px arial";
+      ctx.strokeStyle = "black";
+      ctx.fillStyle = "white";
+     ctx.textAlign = 'center';
+      //ctx.fillText(top_text.value,200,30);
+      //ctx.fillText(bottom_text.value,200,390);
+
+      ctx.strokeText(top_text.value,200,20);
+     // ctx.strokeText(bottom_text.value,200,img.height-100);
+     ctx.strokeText(bottom_text.value,200,395);
+      ctx.fillText(top_text.value,200,20);
+      //ctx.fillText(bottom_text.value,200,img.height-110);
+      ctx.fillText(bottom_text.value,200,395);
+
+      reset_bt.disabled = false;
+      read_bt.disabled = false;
+})
+
+reset_bt.addEventListener('click',()=>{
+  let top_text = document.getElementById('text-top');
+   let bottom_text = document.getElementById("text-bottom");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  top_text.value="";
+  bottom_text.value="";
+})
+
+
 
 
 /**
@@ -87,7 +129,7 @@ image_input.addEventListener('change',()=>{
  */
 function getDimmensions(canvasWidth, canvasHeight, imageWidth, imageHeight) {
   let aspectRatio, height, width, startX, startY;
-
+  
   // Get the aspect ratio, used so the picture always fits inside the canvas
   aspectRatio = imageWidth / imageHeight;
 
