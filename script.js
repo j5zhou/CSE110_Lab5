@@ -6,11 +6,32 @@ const img = new Image(); // used to load image from <input> and draw to canvas
 let generate_bt = document.getElementsByTagName("button")[0];
 let reset_bt = document.getElementsByTagName("button")[1];
 let read_bt = document.getElementsByTagName("button")[2];
-let volumn = 1;
+let text_volumn = 1;
+let voices = [];
 
 //getting the canvas
 let canvas = document.getElementById('user-image');
 let ctx = canvas.getContext('2d');
+
+speechSynthesis.addEventListener("voiceschanged", () => {
+   voices = speechSynthesis.getVoices();
+   //loading the voices options.
+   let voices_Selections= document.getElementById("voice-selection");
+   voices_Selections.innerHTML="";
+   for(let i = 0; i < voices.length ; i++) {
+      let option = document.createElement('option');
+      option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    voices_Selections.appendChild(option);
+  }
+})
+
 
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
@@ -96,13 +117,17 @@ function getDimmensions(canvasWidth, canvasHeight, imageWidth, imageHeight) {
 
 //read text
 read_bt.addEventListener('click', ()=>{
-    
+    let top_text = document.getElementById('text-top');
+    let bottom_text = document.getElementById("text-bottom");
+    let utterance = new SpeechSynthesisUtterance(top_text.value+" , "+bottom_text.value);
+    utterance.volume = text_volumn;
+    speechSynthesis.speak(utterance);
 });
 
 //Volumn change
 let voice_bar = document.getElementsByTagName("input")[3];
 voice_bar.addEventListener("input", ()=>{
-  volumn = voice_bar.value/100;
+  text_volumn = voice_bar.value/100;
   
   let vol_icon = document.getElementsByTagName('img')[0];
   if(voice_bar.value == 0){
