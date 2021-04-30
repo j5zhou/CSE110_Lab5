@@ -40,7 +40,7 @@ speechSynthesis.addEventListener("voiceschanged", () => {
         let choice = voices_Selections.selectedOptions[0].getAttribute('data-name');
         for(i = 0; i < voices.length ; i++) {
           if(voices[i].name === choice) {
-            console.log(choice);
+
             text_language = voices[i];
           }
         }
@@ -83,7 +83,6 @@ img.addEventListener('load', () => {
 //image-input
 let image_input = document.getElementById("image-input");
 image_input.addEventListener('change',()=>{
-  console.log('b');
     //img.src=image_input.value;
     let filepath = URL.createObjectURL(image_input.files[0]);
   //  console.log(image_input.files[0]);
@@ -179,7 +178,6 @@ read_bt.addEventListener('click', ()=>{
     let utterance = new SpeechSynthesisUtterance(top_text.value+" , "+bottom_text.value);
     utterance.volume = text_volumn;
     utterance.voice = text_language;
-    console.log(text_language);
     speechSynthesis.speak(utterance);
 });
 
