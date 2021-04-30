@@ -9,4 +9,4 @@
 [Lab 5 - Meme Generator](https://j5zhou.github.io/CSE110_Lab5/)
 
 ## Part 2:
-[Jinhao Zhou Part 2](https://github.com/j5zhou/github-actions-for-ci)
+[Part 2 GitHub Actions](https://github.com/j5zhou/github-actions-for-ci)
